@@ -11,16 +11,20 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import userReducer from "./slices/userSlice";
+import taskReducer from "./slices/task-slice";
+import notificationReducer from "./slices/notification-slice";
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user"],
+  whitelist: ["user", "tasks", "notifications"],
 };
 
 // Combine all reducers first
 const rootReducer = combineReducers({
   user: userReducer,
+  tasks: taskReducer,
+  notifications: notificationReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

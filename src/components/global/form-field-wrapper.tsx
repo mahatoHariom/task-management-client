@@ -6,6 +6,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+} from "@/components/ui/select";
 import { Control, FieldValues, Path } from "react-hook-form";
 
 interface FormFieldWrapperProps<T extends FieldValues> {
@@ -15,6 +21,7 @@ interface FormFieldWrapperProps<T extends FieldValues> {
   control: Control<T>;
   type?: string;
   accept?: string;
+  options?: { value: string; label: string }[]; // Options for the select input
 }
 
 export const FormFieldWrapper = <T extends FieldValues>({
@@ -24,6 +31,7 @@ export const FormFieldWrapper = <T extends FieldValues>({
   control,
   type = "text",
   accept,
+  options,
 }: FormFieldWrapperProps<T>) => (
   <FormField
     control={control}
@@ -32,22 +40,39 @@ export const FormFieldWrapper = <T extends FieldValues>({
       <FormItem>
         <FormLabel>{label}</FormLabel>
         <FormControl>
-          <Input
-            type={type}
-            placeholder={placeholder}
-            accept={accept}
-            {...field}
-            // Remove `value` when `type` is `file`
-            value={type === "file" ? undefined : field.value}
-            onChange={(e) => {
-              if (type === "file") {
-                const file = e.target.files?.[0];
-                field.onChange(file); // Update the field value with the selected file
-              } else {
-                field.onChange(e); // Use the default onChange for other input types
-              }
-            }}
-          />
+          {type === "select" ? (
+            <Select
+              value={field.value} // Bind the value to react-hook-form
+              onValueChange={(value) => field.onChange(value)} // Ensure onChange updates the form value
+            >
+              <SelectTrigger>
+                <div>{field.value || "Select an option"}</div>
+              </SelectTrigger>
+              <SelectContent>
+                {options?.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          ) : (
+            <Input
+              type={type}
+              placeholder={placeholder}
+              accept={accept}
+              {...field}
+              value={type === "file" ? undefined : field.value}
+              onChange={(e) => {
+                if (type === "file") {
+                  const file = e.target.files?.[0];
+                  field.onChange(file); // Update the field value with the selected file
+                } else {
+                  field.onChange(e); // Use the default onChange for other input types
+                }
+              }}
+            />
+          )}
         </FormControl>
         <FormMessage />
       </FormItem>

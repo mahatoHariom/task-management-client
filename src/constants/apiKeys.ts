@@ -4,4 +4,6 @@ export const apiKeys = {
   register: "register",
 
   getProfile: "getProfile",
+  tasks: "tasks",
+  overdueTasks: "overdueTasks",
 };
