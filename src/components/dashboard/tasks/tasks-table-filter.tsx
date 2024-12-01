@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 import { Priority, Status } from "@/types/tasks";
 import { UseTasksFilters } from "@/hooks/tasks/use-tasks";
 
@@ -23,56 +24,95 @@ export const TaskTableFilters: React.FC<TaskTableFiltersProps> = ({
   return (
     <div className="flex space-x-4 mb-4">
       {/* Global Search */}
-      <Input
-        placeholder="Search tasks..."
-        value={filters.search || ""}
-        onChange={(e) => onFilterChange({ search: e.target.value })}
-        className="max-w-sm"
-      />
+      <div className="relative flex justify-evenly">
+        <Input
+          placeholder="Search tasks..."
+          value={filters.search || ""}
+          onChange={(e) =>
+            onFilterChange({
+              ...filters,
+              search: e.target.value || undefined,
+            })
+          }
+          className="max-w-sm"
+        />
+        {filters.search && (
+          <button
+            onClick={() => onFilterChange({ ...filters, search: undefined })}
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+          >
+            x
+          </button>
+        )}
+      </div>
 
       {/* Status Filter */}
       <Select
-        value={filters.status || "ALL"} // Default to "ALL" for no filter
+        value={filters.status || "ALL"}
         onValueChange={(value) =>
           onFilterChange({
-            status: value === "ALL" ? undefined : (value as Status), // Map "ALL" to undefined
+            ...filters,
+            status: value === "ALL" ? undefined : (value as Status),
           })
         }
       >
-        <SelectTrigger>
+        <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Status" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="ALL">All Statuses</SelectItem>{" "}
-          {/* Use "ALL" as the placeholder value */}
+          <SelectItem value="ALL">Status</SelectItem>
           {Object.values(Status).map((status) => (
             <SelectItem key={status} value={status}>
               {status}
             </SelectItem>
           ))}
+          <SelectItem
+            value="CLEAR"
+            className="text-red-500 focus:bg-red-50"
+            onSelect={() =>
+              onFilterChange({
+                ...filters,
+                status: undefined,
+              })
+            }
+          >
+            Clear Status
+          </SelectItem>
         </SelectContent>
       </Select>
 
       {/* Priority Filter */}
       <Select
-        value={filters.priority || "ALL"} // Default to "ALL" for no filter
+        value={filters.priority || "ALL"}
         onValueChange={(value) =>
           onFilterChange({
-            priority: value === "ALL" ? undefined : (value as Priority), // Map "ALL" to undefined
+            ...filters,
+            priority: value === "ALL" ? undefined : (value as Priority),
           })
         }
       >
-        <SelectTrigger>
+        <SelectTrigger className="w-[180px]">
           <SelectValue placeholder="Priority" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="ALL">All Priorities</SelectItem>{" "}
-          {/* Use "ALL" as the placeholder value */}
+          <SelectItem value="ALL">Priority</SelectItem>
           {Object.values(Priority).map((priority) => (
             <SelectItem key={priority} value={priority}>
               {priority}
             </SelectItem>
           ))}
+          <SelectItem
+            value="CLEAR"
+            className="text-red-500 focus:bg-red-50"
+            onSelect={() =>
+              onFilterChange({
+                ...filters,
+                priority: undefined,
+              })
+            }
+          >
+            Clear Priority
+          </SelectItem>
         </SelectContent>
       </Select>
     </div>

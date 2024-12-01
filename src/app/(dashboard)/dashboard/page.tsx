@@ -1,22 +1,24 @@
-import Navbar from "@/components/dashboard/navbar";
-import NotificationComponent from "@/components/dashboard/notifications";
-import Sidebar from "@/components/dashboard/sidebar";
-import TaskTable from "@/components/dashboard/task-table";
-
+"use client";
 import React from "react";
+import TaskTable from "@/components/dashboard/task-table";
+import { NotificationCenter } from "@/components/notification-center";
+import { useNotifications } from "@/hooks/user-notifications";
 
 const DashboardPage: React.FC = () => {
+  const { notifications, markAsRead, clearNotifications } = useNotifications(
+    "cm44c2mhw0000jlrz6ma5yob9"
+  );
   return (
-    <div className="flex h-screen">
-      <Sidebar />
-      <div className="flex-1 flex flex-col">
-        <Navbar />
-        <main className="flex-1 p-4">
-          <TaskTable />
-        </main>
-      </div>
-      <NotificationComponent />
-    </div>
+    <>
+      {/* <WebSocketComponent /> */}
+      {/* <NotificationComponent /> */}
+      <NotificationCenter
+        notifications={notifications}
+        onMarkAsRead={markAsRead}
+        onClear={clearNotifications}
+      />
+      <TaskTable />
+    </>
   );
 };
 

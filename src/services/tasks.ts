@@ -1,7 +1,6 @@
 import api from "@/lib/axios-instance";
 import { Priority, Status, Task } from "@/types/tasks";
 
-
 export const getOverdueTasks = async (): Promise<Task[]> => {
   const response = await api.get("/tasks/overdue");
   return response.data;

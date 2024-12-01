@@ -3,7 +3,13 @@ import { useState } from "react";
 import { useInfiniteQuery, useMutation, useQuery } from "@tanstack/react-query";
 import { apiKeys } from "@/constants/apiKeys";
 import { getTasks, getOverdueTasks } from "@/services/tasks";
-import { Priority, Status, UpdateTaskInput } from "@/types/tasks";
+import {
+  AddTaskVariables,
+  Priority,
+  Status,
+  Task,
+  UpdateTaskInput,
+} from "@/types/tasks";
 import queryClient from "@/lib/query-client";
 import api from "@/lib/axios-instance";
 
@@ -86,6 +92,23 @@ export const useDeleteTask = () => {
       queryClient.invalidateQueries({
         queryKey: [apiKeys.tasks],
       });
+    },
+  });
+};
+
+export const useAddTask = () => {
+  return useMutation({
+    mutationFn: async (taskData: AddTaskVariables): Promise<Task> => {
+      const response = await api.post("/tasks", taskData);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [apiKeys.tasks],
+      });
+    },
+    onError: (error) => {
+      console.error("Failed to add task:", error);
     },
   });
 };

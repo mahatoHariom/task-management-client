@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/global/theme-provider";
 import { fontMontserrat } from "@/config/fonts";
 import { Providers } from "@/lib/providers";
 import { Toaster } from "@/components/ui/sonner";
+// import { WebSocketComponent } from "@/hooks/use-websocket";
 
 export const metadata: Metadata = {
   title: "Create Next App",

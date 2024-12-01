@@ -66,3 +66,12 @@ export interface UpdateTaskInput {
   status?: Status;
   dueDate?: string; // Add dueDate as an optional string field
 }
+
+export interface AddTaskVariables {
+  title: string;
+  description: string;
+  priority: string;
+  status: string;
+  dueDate: string;
+  userId: string;
+}

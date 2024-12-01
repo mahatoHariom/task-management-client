@@ -90,6 +90,24 @@ export const getTaskColumns = (
     },
   },
   {
+    id: "overdue",
+    header: "Overdue",
+    cell: ({ row }) => {
+      const task = row.original;
+      const currentDate = new Date();
+      const dueDate = new Date(task.dueDate as string);
+
+      // Check if the task is overdue
+      const isOverdue = dueDate < currentDate && task.status !== Status.DONE;
+
+      return (
+        <Badge variant={isOverdue ? "destructive" : "default"}>
+          {isOverdue ? "Overdue" : "On Time"}
+        </Badge>
+      );
+    },
+  },
+  {
     id: "actions",
     header: "Actions",
     cell: ({ row }) => {

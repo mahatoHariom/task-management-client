@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import React, { useMemo, useState } from "react";
@@ -23,12 +24,19 @@ import EditTaskModal from "./modal/edit-task-modal";
 import DeleteTaskModal from "./modal/delete-task-modal";
 import SkeletonTable from "../skeleton/table-skeleton";
 import NoData from "../global/no-data-available";
+import { useUrlParams } from "@/hooks/user-url-params";
 
 const TaskTable: React.FC = () => {
-  const [filters, setFilters] = useState<UseTasksFilters>({});
+  const { params, setParams } = useUrlParams();
+
+  // const [filters, setFilters] = useState<UseTasksFilters>({});
   const [editTask, setEditTask] = useState<Task | null>(null);
   const [deleteTask, setDeleteTask] = useState<Task | null>(null);
-
+  const filters: { [key: string]: string | string[] | undefined } = {
+    search: (params.search as string) || "",
+    status: (params.status as string) || "",
+    priority: (params.priority as string) || "",
+  };
   const {
     data,
     isLoading,
@@ -61,9 +69,20 @@ const TaskTable: React.FC = () => {
   });
 
   const handleFilterChange = (newFilters: UseTasksFilters) => {
-    const updatedFilters = { ...filters, ...newFilters };
-    setFilters(updatedFilters);
-    updateTaskFilters(updatedFilters);
+    // Use Object.entries to filter out undefined values
+
+    const urlParams = Object.fromEntries(
+      Object.entries(newFilters).map(([key, value]) =>
+        // Convert null to empty string for URL
+        [key, value === null || value === undefined ? "" : value]
+      )
+    );
+
+    // Update URL with new filters
+    setParams(urlParams as { [key: string]: string });
+
+    // Update task filters
+    updateTaskFilters(newFilters);
   };
 
   return (
@@ -107,7 +126,11 @@ const TaskTable: React.FC = () => {
       )}
 
       <div className="flex justify-center mt-4 items-center">
-        <Button onClick={() => fetchNextPage()} disabled={!hasNextPage}>
+        <Button
+          onClick={() => fetchNextPage()}
+          disabled={!hasNextPage}
+          loading={isLoading}
+        >
           Load More
         </Button>
       </div>
