@@ -1,3 +1,4 @@
+// types/notification.ts
 export enum NotificationType {
   CRUD = "CRUD",
   OVERDUE = "OVERDUE",
@@ -19,4 +20,5 @@ export interface Notification {
   message: string;
   timestamp: Date;
   isRead: boolean;
+  dueDate?: string | Date;
 }

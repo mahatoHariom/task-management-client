@@ -11,7 +11,7 @@ export class WebSocketNotificationClient {
   }
 
   private connect() {
-    const wsUrl = `ws://localhost:8080?userId=${this.userId}`; // Use `ws://` for WebSocket protocol
+    const wsUrl = `${process.env.NEXT_PUBLIC_WS_URL}?userId=${this.userId}`;
     this.socket = new WebSocket(wsUrl);
 
     this.socket.onmessage = (event) => {

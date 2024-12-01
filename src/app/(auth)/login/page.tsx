@@ -61,6 +61,7 @@ const LoginPage = () => {
               />
               <FormFieldWrapper
                 name="password"
+                type="password"
                 label="Password"
                 placeholder="Enter your password..."
                 control={control}

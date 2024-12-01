@@ -15,7 +15,7 @@ let isRefreshing = false;
 const refreshQueue: RefreshQueueItem[] = [];
 
 const api: AxiosInstance = axios.create({
-  baseURL: "http://localhost:9000/api/v1",
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
   withCredentials: true,
 });
 

@@ -1,29 +1,22 @@
 "use client";
-
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { FaSignOutAlt, FaBars, FaBell } from "react-icons/fa";
-import { BiCollapse } from "react-icons/bi";
+import { FaSignOutAlt, FaBars } from "react-icons/fa";
 import { GoSidebarCollapse } from "react-icons/go";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/store/store";
-import { markAllAsRead } from "@/store/slices/notification-slice";
+// import { useDispatch } from "react-redux";
 import AddTaskModal from "@/components/dashboard/modal/add-task-modal";
 import { Button } from "../ui/button";
+import NotificationSidebar from "./sidebar-notifications";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 const Sidebar: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("tasks");
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
-  const [isNotificationOpen, setIsNotificationOpen] = useState<boolean>(false);
   const router = useRouter();
-  const dispatch = useDispatch();
-
-  // Get notifications from Redux store
-  const { notifications, unreadCount } = useSelector(
-    (state: RootState) => state.notifications
-  );
+  const { id: userId } = useSelector((state: RootState) => state.user);
 
   const handleTabClick = (tab: string): void => {
     setActiveTab(tab);
@@ -39,10 +32,6 @@ const Sidebar: React.FC = () => {
 
   const toggleSidebar = (): void => {
     setIsSidebarOpen((prev) => !prev);
-  };
-
-  const toggleNotifications = (): void => {
-    setIsNotificationOpen((prev) => !prev);
   };
 
   return (
@@ -61,7 +50,7 @@ const Sidebar: React.FC = () => {
           }`}
         >
           {/* Header with Notification Toggle */}
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex justify-between items-center mb-6 ">
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -70,66 +59,16 @@ const Sidebar: React.FC = () => {
             >
               Task Manager
             </motion.div>
-            <div className="flex items-center space-x-2">
-              {/* Notification Bell with Unread Count */}
-              <div className="relative">
-                <button
-                  onClick={toggleNotifications}
-                  className="text-2xl relative"
-                >
-                  <FaBell />
-                  {unreadCount > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                      {unreadCount}
-                    </span>
-                  )}
-                </button>
-              </div>
+            <div className="flex items-center  gap-4">
+              {/* Notification Sidebar */}
+              <NotificationSidebar userId={userId} />
 
               {/* Sidebar Toggle */}
-              <button onClick={toggleSidebar} className="text-2xl">
-                {isSidebarOpen ? <BiCollapse /> : <FaBars />}
+              <button onClick={toggleSidebar} className="">
+                {isSidebarOpen ? <GoSidebarCollapse size={20} /> : <FaBars />}
               </button>
             </div>
           </div>
-
-          {/* Notifications Dropdown */}
-          {isNotificationOpen && (
-            <div className="absolute top-16 left-0 w-64 bg-background border border-border rounded-md shadow-lg z-50 max-h-80 overflow-y-auto">
-              <div className="flex justify-between items-center p-3 border-b border-border">
-                <h3 className="font-bold">Notifications ({unreadCount})</h3>
-                {unreadCount > 0 && (
-                  <button
-                    onClick={() => dispatch(markAllAsRead())}
-                    className="text-sm text-blue-400 hover:text-blue-300"
-                  >
-                    Mark all as read
-                  </button>
-                )}
-              </div>
-              {notifications.length > 0 ? (
-                <ul className="space-y-2 p-2">
-                  {notifications.map((notification, index) => (
-                    <li
-                      key={`${notification.taskId}-${index}`}
-                      className={`text-sm p-2 rounded ${
-                        notification.read ? "bg-gray-100" : "bg-blue-50"
-                      }`}
-                    >
-                      <span className="font-medium">{notification.title}</span>
-                      <br />
-                      <span className="text-xs text-gray-500">
-                        Due:{" "}
-                        {new Date(notification.dueDate).toLocaleDateString()}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="text-sm text-gray-400 p-3">No notifications</p>
-              )}
-            </div>
-          )}
 
           {/* Navigation links */}
           <ul className="flex flex-col space-y-2 mt-4">

@@ -80,7 +80,7 @@ const AddTaskModal: React.FC = () => {
                 description: "",
                 priority: Priority.LOW,
                 status: Status.PENDING,
-                dueDate: new Date().toISOString(),
+                dueDate: new Date().toISOString().slice(0, 16), // Format to YYYY-MM-DDTHH:mm
               }}
               validationSchema={validationSchema}
               onSubmit={handleSubmit}
