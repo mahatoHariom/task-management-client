@@ -19,7 +19,7 @@
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/project-management-frontend.git
+git clone https://github.com/mahatoHariom/project-management-frontend.git
 cd client
 ```
 
