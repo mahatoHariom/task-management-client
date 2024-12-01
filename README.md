@@ -1,36 +1,125 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Project Management Frontend
 
-## Getting Started
+## 📋 Table of Contents
+- [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
+- [Development](#development)
+- [Deployment](#deployment)
+- [Technologies](#technologies)
+- [Contributing](#contributing)
 
-First, run the development server:
+## 🛠 Prerequisites
+
+- **Node.js**: v18 or later
+- **npm**: v9 or later
+
+## 🏁 Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/project-management-frontend.git
+cd client
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Environment Configuration
+
+Create a `.env.local` file in the root directory:
+
+```env
+NEXT_PUBLIC_WS_URL=ws://localhost:8080
+NEXT_PUBLIC_BASE_URL=http://localhost:9000/api/v1
+```
+
+### 4. Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+🌐 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📂 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+│
+├── app/           # Next.js application routes
+├── components/    # Reusable React components
+├── lib/           # Utility functions
+├── redux/         # State management
+└── styles/        # Global styles
+```
 
-## Learn More
+## 🔧 Development Scripts
 
-To learn more about Next.js, take a look at the following resources:
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Create production build |
+| `npm start` | Run production server |
+| `npm run lint` | Run ESLint |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚀 Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Build for Production
 
-## Deploy on Vercel
+```bash
+npm run build
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Start Production Server
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm start
+```
+
+## 📦 Key Technologies
+
+- **Framework**: Next.js 15
+- **Language**: TypeScript
+- **State Management**: 
+  - Redux Toolkit
+  - React Query
+- **Styling**: Tailwind CSS
+- **Validation**: Zod
+- **HTTP Client**: Axios
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+3. Commit your changes
+   ```bash
+   git commit -m 'Add some Amazing Feature'
+   ```
+4. Push to the branch
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+5. Open a Pull Request
+
+## 🛡️ Troubleshooting
+
+- Verify Node.js and npm versions
+- Check environment variables
+- Ensure backend services are running
+
+## 📄 License
+
+[Specify Your License]
+
+## 📞 Contact
+
+[Your Contact Information]
+```
