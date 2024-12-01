@@ -8,7 +8,7 @@ export function middleware(request: NextRequest) {
   const publicRoutes = ["/login", "/register"];
 
   // If no access token, redirect to login
-  if (!accessToken) {
+  if (accessToken) {
     if (!publicRoutes.includes(pathname)) {
       return NextResponse.redirect(new URL("/login", request.url));
     }

@@ -1,5 +1,5 @@
 import { apiKeys } from "@/constants/apiKeys";
-import { SignUpFormData } from "@/schema/users/signup-schema";
+import { SignUpFormData } from "@/schemas/users/signup-schema";
 import registerUser from "@/services/users";
 import { useMutation } from "@tanstack/react-query";
 
