@@ -16,7 +16,7 @@ export const Messages: Messages = {
   },
   register: {
     success:
-      "Registration successful! Please check your email to verify your account.",
+      "Registration successful!",
     error: "Registration failed. Please try again later or contact support.",
   },
   logout: {
