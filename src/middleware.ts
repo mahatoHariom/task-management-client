@@ -4,23 +4,24 @@ export function middleware(request: NextRequest) {
   const accessToken = request.cookies.get("accessToken")?.value;
   const { pathname } = request.nextUrl;
 
-  // Public routes where authentication is checked
+  // Public routes that don't require authentication
   const publicRoutes = ["/login", "/register"];
 
-  // If no access token, redirect to login
-  if (accessToken) {
+  if (!accessToken) {
+    // If user is unauthenticated and not on a public route, redirect to /login
     if (!publicRoutes.includes(pathname)) {
       return NextResponse.redirect(new URL("/login", request.url));
     }
+    // Allow access to public routes
     return NextResponse.next();
   }
 
-  // If access token exists and user tries to access login/register, redirect to dashboard
+  // If user is authenticated and tries to access public routes, redirect to dashboard
   if (publicRoutes.includes(pathname)) {
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/", request.url)); // Redirect to dashboard/home
   }
 
-  // Allow the request to proceed
+  // Allow authenticated users to proceed
   return NextResponse.next();
 }
 
